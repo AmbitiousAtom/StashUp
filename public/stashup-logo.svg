@@ -1,0 +1,38 @@
+<svg width="760" height="220" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="220" rx="28" fill="white"/>
+  <g transform="translate(18 10)">
+    <path
+      d="M113 68C122 48 144 33 174 25C209 16 251 16 289 29C307 18 329 17 348 24C334 35 327 46 325 58C340 62 351 73 357 88H366C383 88 396 100 396 116C396 133 383 146 366 146H356C345 164 324 177 296 184C261 193 219 193 182 182C144 171 116 150 103 123C95 107 94 85 113 68Z"
+      fill="white"
+      stroke="#6BC441"
+      stroke-width="8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path d="M107 83C89 75 80 62 82 47" stroke="#33343A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M84 57C67 59 57 52 52 40" stroke="#33343A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M189 50C211 41 239 40 261 43" stroke="#33343A" stroke-width="8" stroke-linecap="round"/>
+    <path
+      d="M286 39C299 20 320 10 344 10C329 27 321 47 320 70"
+      stroke="#33343A"
+      stroke-width="8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <circle cx="339" cy="95" r="8" fill="#33343A"/>
+    <ellipse cx="387" cy="113" rx="5.5" ry="9" fill="#33343A"/>
+    <ellipse cx="403" cy="113" rx="5.5" ry="9" fill="#33343A"/>
+    <path d="M364 133C374 142 388 144 400 140" stroke="#33343A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M141 136L201 78L238 109L304 57" stroke="#6BC441" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M294 61L307 55L304 71" stroke="#6BC441" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="149" y="139" width="24" height="33" rx="2" fill="#6BC441"/>
+    <rect x="180" y="122" width="24" height="50" rx="2" fill="#6BC441"/>
+    <rect x="211" y="102" width="24" height="70" rx="2" fill="#6BC441"/>
+    <rect x="242" y="82" width="24" height="90" rx="2" fill="#6BC441"/>
+    <path d="M158 172L164 199L188 203L194 172" fill="white" stroke="#33343A" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M270 172L276 199L300 203L306 172" fill="white" stroke="#33343A" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M359 141L331 178" stroke="#33343A" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <text x="445" y="136" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="2" fill="#33343A">STASH</text>
+  <text x="684" y="136" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="2" fill="#7ECF4B">UP</text>
+</svg>
