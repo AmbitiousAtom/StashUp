@@ -125,11 +125,11 @@ button {
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    min-width: clamp(15rem, 28vw, 20rem);
+    min-width: clamp(10.5rem, 21vw, 15rem);
   }
 
   .logo-image {
-    width: clamp(15rem, 28vw, 20rem);
+    width: clamp(10.5rem, 21vw, 15rem);
     height: auto;
     object-fit: contain;
   }

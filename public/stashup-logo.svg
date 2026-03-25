@@ -1,5 +1,4 @@
-<svg width="760" height="220" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="220" rx="28" fill="white"/>
+<svg width="830" height="205" viewBox="42 8 830 205" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(18 10)">
     <path
       d="M113 68C122 48 144 33 174 25C209 16 251 16 289 29C307 18 329 17 348 24C334 35 327 46 325 58C340 62 351 73 357 88H366C383 88 396 100 396 116C396 133 383 146 366 146H356C345 164 324 177 296 184C261 193 219 193 182 182C144 171 116 150 103 123C95 107 94 85 113 68Z"
@@ -33,6 +32,6 @@
     <path d="M270 172L276 199L300 203L306 172" fill="white" stroke="#33343A" stroke-width="8" stroke-linejoin="round"/>
     <path d="M359 141L331 178" stroke="#33343A" stroke-width="8" stroke-linecap="round"/>
   </g>
-  <text x="445" y="136" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="2" fill="#33343A">STASH</text>
-  <text x="684" y="136" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="2" fill="#7ECF4B">UP</text>
+  <text x="445" y="146" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="2" fill="#33343A">STASH</text>
+  <text x="740" y="146" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="800" letter-spacing="2" fill="#7ECF4B">UP</text>
 </svg>

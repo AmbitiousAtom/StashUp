@@ -10,7 +10,7 @@ export function SiteHeader() {
             src="/stashup-logo.svg"
             alt="StashUp logo"
             width={320}
-            height={92}
+            height={79}
             className="logo-image"
             priority
           />
