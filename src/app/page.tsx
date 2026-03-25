@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
 type TxType = "income" | "expense";
@@ -18,11 +19,14 @@ type Transaction = {
 };
 
 export default function Home() {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState<TxType>("expense");
   const [category, setCategory] = useState("");
   const [items, setItems] = useState<Transaction[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [checkingSession, setCheckingSession] = useState(true);
 
   const totals = items.reduce(
     (summary, item) => {
@@ -38,10 +42,16 @@ export default function Home() {
   );
   const balance = totals.income - totals.expenses;
 
-  async function load() {
+  async function load(currentUserId: string | null = userId) {
+    if (!currentUserId) {
+      router.push("/login");
+      return;
+    }
+
     const { data, error } = await supabase
       .from("transactions")
       .select("*")
+      .eq("user_id", currentUserId)
       .order("tx_date", { ascending: false })
       .order("created_at", { ascending: false });
 
@@ -52,10 +62,32 @@ export default function Home() {
   useEffect(() => {
     let isMounted = true;
 
-    async function loadInitialTransactions() {
-      const { data, error } = await supabase
+    async function initializePage() {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (!isMounted) {
+        return;
+      }
+
+      if (error) {
+        alert(error.message);
+        setCheckingSession(false);
+        return;
+      }
+
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      setUserId(user.id);
+      const { data, error: loadError } = await supabase
         .from("transactions")
         .select("*")
+        .eq("user_id", user.id)
         .order("tx_date", { ascending: false })
         .order("created_at", { ascending: false });
 
@@ -63,29 +95,34 @@ export default function Home() {
         return;
       }
 
-      if (!error) {
-        setItems(data || []);
+      if (loadError) {
+        alert(loadError.message);
       } else {
-        alert(error.message);
+        setItems(data || []);
+      }
+
+      if (isMounted) {
+        setCheckingSession(false);
       }
     }
 
-    void loadInitialTransactions();
+    void initializePage();
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [router]);
 
   async function addTx(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!title.trim() || !amount) return;
+    if (!title.trim() || !amount || !userId) return;
 
     const { error } = await supabase.from("transactions").insert({
       title: title.trim(),
       amount: Number(amount),
       type,
       category: category.trim() || null,
+      user_id: userId,
     });
 
     if (error) return alert(error.message);
@@ -98,9 +135,23 @@ export default function Home() {
   }
 
   async function removeTx(id: string) {
-    const { error } = await supabase.from("transactions").delete().eq("id", id);
+    if (!userId) {
+      router.push("/login");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("transactions")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", userId);
     if (error) return alert(error.message);
     load();
+  }
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    router.push("/login");
   }
 
   function formatCurrency(value: number) {
@@ -123,6 +174,18 @@ export default function Home() {
       day: "numeric",
       year: "numeric",
     }).format(parsed);
+  }
+
+  if (checkingSession) {
+    return (
+      <main className="app-shell flex items-center justify-center">
+        <div className="panel max-w-lg p-8 text-center">
+          <p className="eyebrow">Checking session</p>
+          <h1 className="section-title mt-4">Loading your tracker</h1>
+          <p className="muted-copy mt-3">Confirming your account before loading transactions.</p>
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -155,27 +218,27 @@ export default function Home() {
         </div>
 
         <aside className="panel p-6 sm:p-7">
-          <p className="eyebrow">Account access</p>
-          <h2 className="section-title mt-4">Create an account or jump back in.</h2>
+          <p className="eyebrow">Session controls</p>
+          <h2 className="section-title mt-4">Your tracker is now tied to your account.</h2>
           <p className="muted-copy mt-3 leading-7">
-            Use email and password auth to save your progress and access the dashboard from
-            the same account later.
+            Transactions are loaded only for the signed-in user and protected by your
+            Supabase policies.
           </p>
           <div className="mt-6 grid gap-3">
-            <Link href="/signup" className="button-primary">
-              Create account
+            <Link href="/dashboard" className="button-primary">
+              Open dashboard
             </Link>
-            <Link href="/login" className="button-secondary">
-              Log in
-            </Link>
+            <button type="button" className="button-secondary" onClick={signOut}>
+              Sign out
+            </button>
           </div>
 
           <div className="mt-6 rounded-2xl bg-[var(--surface-soft)] px-4 py-4">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-              What you can do
+              Access model
             </p>
             <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
-              Add transactions, review totals, and keep your budget activity in one place.
+              Sign in first, then add transactions that belong only to your account.
             </p>
           </div>
         </aside>
