@@ -149,11 +149,6 @@ export default function Home() {
     load();
   }
 
-  async function signOut() {
-    await supabase.auth.signOut();
-    router.push("/login");
-  }
-
   function formatCurrency(value: number) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -228,9 +223,9 @@ export default function Home() {
             <Link href="/dashboard" className="button-primary">
               Open dashboard
             </Link>
-            <button type="button" className="button-secondary" onClick={signOut}>
-              Sign out
-            </button>
+            <Link href="/login" className="button-secondary">
+              Sign in
+            </Link>
           </div>
 
           <div className="mt-6 rounded-2xl bg-[var(--surface-soft)] px-4 py-4">
