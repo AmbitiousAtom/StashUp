@@ -261,14 +261,6 @@ export default function Home() {
     await load();
   }
 
-  async function signOut() {
-    await supabase.auth.signOut();
-    setUserId(null);
-    setItems([]);
-    resetForm();
-    router.push("/login");
-  }
-
   function formatCurrency(value: number) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -299,6 +291,74 @@ export default function Home() {
           <h1 className="section-title mt-4">Loading your tracker</h1>
           <p className="muted-copy mt-3">Confirming your account before loading transactions.</p>
         </div>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <main className="app-shell">
+        <section className="app-grid lg:grid-cols-[1.35fr_0.95fr]">
+          <div className="panel hero-panel">
+            <span className="eyebrow">Welcome to StashUp</span>
+            <div className="mt-5 max-w-2xl">
+              <h1 className="display-title">Build a calmer view of your money.</h1>
+              <p className="muted-copy mt-4 max-w-xl text-base leading-7 sm:text-lg">
+                Track spending, review income, edit entries, and plan recurring transactions in one
+                focused budget workspace.
+              </p>
+            </div>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <article className="stat-card">
+                <p className="stat-label">Track</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
+                  Add income and expenses with categories and dates.
+                </p>
+              </article>
+              <article className="stat-card">
+                <p className="stat-label">Repeat</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
+                  Create weekly or monthly recurring transactions.
+                </p>
+              </article>
+              <article className="stat-card">
+                <p className="stat-label">Adjust</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
+                  Edit existing entries whenever your plan changes.
+                </p>
+              </article>
+            </div>
+          </div>
+
+          <aside className="panel p-6 sm:p-7">
+            <p className="eyebrow">Get started</p>
+            <h2 className="section-title mt-4">Create an account or jump back in.</h2>
+            <p className="muted-copy mt-3 leading-7">
+              Sign up to create your personal budget space, or log in if you already have an
+              account.
+            </p>
+
+            <div className="mt-6 grid gap-3">
+              <Link href="/signup" className="button-primary">
+                Sign up
+              </Link>
+              <Link href="/login" className="button-secondary">
+                Log in
+              </Link>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-[var(--surface-soft)] px-4 py-4">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                What happens next
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
+                After you sign in, this page becomes your budget tracker and the top navigation
+                switches to a single Log out action.
+              </p>
+            </div>
+          </aside>
+        </section>
       </main>
     );
   }
@@ -345,25 +405,9 @@ export default function Home() {
               : "Sign up for your own workspace, then log in to add transactions and keep your budget in one place."}
           </p>
           <div className="mt-6 grid gap-3">
-            {isAuthenticated ? (
-              <>
-                <Link href="/dashboard" className="button-primary">
-                  Open dashboard
-                </Link>
-                <button type="button" className="button-secondary" onClick={signOut}>
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/signup" className="button-primary">
-                  Sign up
-                </Link>
-                <Link href="/login" className="button-secondary">
-                  Log in
-                </Link>
-              </>
-            )}
+            <Link href="/dashboard" className="button-primary">
+              Open dashboard
+            </Link>
           </div>
 
           <div className="mt-6 rounded-2xl bg-[var(--surface-soft)] px-4 py-4">
@@ -371,9 +415,7 @@ export default function Home() {
               Access model
             </p>
             <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
-              {isAuthenticated
-                ? "Your transactions belong only to your signed-in account."
-                : "You will only see Sign up and Log in here until you are authenticated."}
+              Your transactions belong only to your signed-in account.
             </p>
           </div>
         </aside>
