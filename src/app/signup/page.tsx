@@ -21,9 +21,15 @@ export default function SignupPage() {
     setMessage(null);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const redirectTo =
+        typeof window !== "undefined" ? `${window.location.origin}/login` : undefined;
+
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: redirectTo,
+        },
       });
 
       if (error) {
@@ -31,8 +37,14 @@ export default function SignupPage() {
         return;
       }
 
-      setMessage("Account created. You can log in now.");
-      router.push("/login");
+      if (data.session) {
+        router.push("/dashboard");
+        return;
+      }
+
+      setEmail("");
+      setPassword("");
+      setMessage("Account created. Check your email to confirm your account, then log in.");
     } catch (error) {
       setError(getReadableSupabaseError(error));
     } finally {
@@ -67,7 +79,8 @@ export default function SignupPage() {
           <span className="eyebrow">Sign up</span>
           <h2 className="section-title mt-4">Create your account</h2>
           <p className="muted-copy mt-3 leading-7">
-            Enter an email and password to create a new StashUp account.
+            Enter an email and password to create a new StashUp account. If email
+            confirmation is enabled, we will send you a confirmation link before you log in.
           </p>
 
           <form onSubmit={handleSignup} className="mt-6 grid gap-4">
