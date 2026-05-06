@@ -2,17 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 export function SiteHeader() {
+  const assetBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const logoSrc = `${assetBasePath}/stashup-logo.svg`;
+
   return (
     <header className="site-header">
       <div className="site-header-inner">
         <Link href="/" className="logo-link" aria-label="StashUp home">
           <Image
-            src="/stashup-logo.svg"
+            src={logoSrc}
             alt="StashUp logo"
             width={320}
             height={79}
             className="logo-image"
-            priority
           />
         </Link>
 
